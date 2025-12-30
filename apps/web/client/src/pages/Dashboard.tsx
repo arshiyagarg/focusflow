@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
   Sparkles, Loader2, FileText, PlayCircle, 
-  Mic, LayoutDashboard, LogOut, ChevronRight,
+  Mic, LayoutDashboard, LogOut, ChevronRight, Settings,
   User as UserIcon
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,9 @@ import { useAuthStore } from "@/store/useAuthStore";
 import { usePreferencesStore } from "@/store/usePreferencesStore";
 import { useStudyStore } from "@/store/useStudyTemp";
 import { useProgressStore } from "@/store/useProgressStore";
+import { FocusTimer } from "@/components/dashboard/FocusTimer";
+import { SettingsView } from "@/components/dashboard/SettingsView";
+import { LabsWorkspace } from "@/components/dashboard/LabsWorkspace";
 
 const Dashboard = () => {
   const {progress, getOrUpdateProgress} = useProgressStore();
@@ -68,6 +71,12 @@ const Dashboard = () => {
             active={activeTab === 'profile'} 
             onClick={() => setActiveTab('profile')} 
           />
+          <SidebarLink 
+            icon={<Settings className="w-4 h-4" />} 
+            label="Settings" 
+            active={activeTab === 'settings'} 
+            onClick={() => setActiveTab('settings')} 
+          />
           <div className="pt-4 pb-2 text-[10px] uppercase tracking-widest text-muted-foreground font-bold">
             Input Labs
           </div>
@@ -103,6 +112,12 @@ const Dashboard = () => {
 
       {/* Main Content Area */}
       <main className="flex-1 overflow-y-auto p-8 relative">
+        {/* 1. putting a check here If tab is 'settings', show ONLY the Settings View */}
+        {activeTab === 'settings' ? (
+           <SettingsView />
+        ) : (
+           /* 2. ELSE: Render the Standard Dashboard (Overview, Profile, Labs, etc all the other crap: to be fixed) */
+           <>
         <header className="flex justify-between items-center mb-8">
           <div>
             <h2 className="text-2xl font-serif font-bold capitalize">{activeTab} Dashboard</h2>
@@ -167,6 +182,10 @@ const Dashboard = () => {
                 )}
               </div>
             </div>
+            <div className="pt-6">
+                <h3 className="font-serif text-xl font-semibold mb-4">Focus Session</h3>
+                <FocusTimer />
+            </div>
           </div>
 
           {/* Sidebar Cards */}
@@ -175,6 +194,8 @@ const Dashboard = () => {
             <StreakDisplay />
           </div>
         </div>
+        </> 
+              )}
       </main>
     </div>
   );
