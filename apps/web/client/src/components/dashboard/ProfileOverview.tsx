@@ -1,6 +1,13 @@
 import { User as UserIcon } from "lucide-react";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useProgressStore } from "@/store/useProgressStore";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Separator } from "@/components/ui/separator";
+import { Camera } from "lucide-react";
+import { ProfileCard } from "./ProfileCard";
 
 export const ProfileOverview = () => {
   const { user } = useAuthStore();
@@ -32,4 +39,5 @@ export const ProfileOverview = () => {
       </div>
     </div>
   );
+  
 };
