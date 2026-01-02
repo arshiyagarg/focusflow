@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import { useContentOutputStore } from "@/store/useContentOutput";
 import { useUploadStore } from "@/store/useUploadStore";
 import { useStudyStore } from "@/store/useStudyTemp";
-import { paragraphsToPlainText} from "@/store/previewAdapter";
+import { contentToPlainText} from "@/store/previewAdapter";
 import { OutputPreviewModal } from "./previewmodel";
-
+import { detectOutputStyle } from "@/store/outputstyledetector";
 // Renderers
 import { SummaryRenderer } from "./summaryrender";
 import { VisualRenderer } from "./visualrender";
@@ -46,21 +46,26 @@ export const ProcessedContentDisplay = () => {
         if (output.status === "READY") {
           clearInterval(interval);
 
-          setOutputStyle(output.outputStyle);
-          
+          //setOutputStyle(output.outputStyle);
+          let data: any=null;
           // SUMMARY → fetch from blob
           if (output.processed.blobName) {
-            const blob = await getBlobContent(
+            data = await getBlobContent(
               "text",
               output.processed.blobName
             );
-            console.log("[ProcessedContentDisplay] Blob: ", blob);
-            setProcessedData(blob);
+            console.log("[ProcessedContentDisplay] Blob: ", data);
           }
           // VISUAL / FLOW / FLASHCARDS → JSON
           else if (output.processedData) {
-            setProcessedData(output.processedData);
+            data=output.processedData;
           }
+          if (data) {
+          setProcessedData(data);
+
+          const detectedStyle = detectOutputStyle(data);
+          setOutputStyle(detectedStyle);
+        }
         }
       } catch (err) {
         console.error("Polling failed:", err);
@@ -137,7 +142,7 @@ export const ProcessedContentDisplay = () => {
       {/* PREVIEW MODAL */}
       {showPreview && processedData && (
         <OutputPreviewModal
-          content={paragraphsToPlainText(processedData)}
+          content={contentToPlainText(processedData,outputStyle)}
           onClose={() => setShowPreview(false)}
         />
       )}
