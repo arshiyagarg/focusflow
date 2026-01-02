@@ -6,6 +6,8 @@ import { jsPDF } from "jspdf";
 import { useContentOutputStore } from "@/store/useContentOutput";
 import { useUploadStore } from "@/store/useUploadStore";
 import { htmlToPlainText, urlToFileName } from "@/lib/utils";
+import { contentToPlainText } from "@/store/contentforlearninghistory";
+
 
 export const MyLearningHistory = () => {
   const { contentOutputs, getMyContentOutputs } = useContentOutputStore();
@@ -32,9 +34,13 @@ export const MyLearningHistory = () => {
     try {
       const response = await getBlobContent("text", output.processedBlobName);
 
-      const text = response.paragraphs
-        .flatMap((p: any) => p.sentences.map((s: any) => s.text))
-        .join("\n\n");
+      // const text = response.paragraphs
+      //   .flatMap((p: any) => p.sentences.map((s: any) => s.text))
+      //   .join("\n\n");
+
+      
+    const text = contentToPlainText(response);
+
 
       setPreviewText(text);
     } catch (err) {
@@ -154,7 +160,9 @@ export const MyLearningHistory = () => {
               </div>
             ) : (
               <div className="flex-1 overflow-y-auto whitespace-pre-wrap text-sm text-stone-800 dark:text-stone-100">
-                <div dangerouslySetInnerHTML={{ __html: previewText }} />
+                <div className="whitespace-pre-wrap">
+                  {previewText}
+                </div>
               </div>
             )}
 
