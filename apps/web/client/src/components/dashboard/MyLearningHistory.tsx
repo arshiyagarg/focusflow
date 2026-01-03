@@ -22,6 +22,7 @@ import { htmlToPlainText, urlToFileName } from "@/lib/utils";
 import { contentToPlainText } from "@/store/contentforlearninghistory";
 import { Button } from "@/components/ui/button";
 import { useStudyStore } from "@/store/useStudyTemp";
+import { useFocusTracker } from "@/hooks/useFocusTracker";
 
 type ViewMode = "grid" | "detail";
 
@@ -41,6 +42,12 @@ export const MyLearningHistory = () => {
     getMyContentOutputs();
   }, [getMyContentOutputs]);
 
+  // ---------------- VIEW ----------------
+
+  useFocusTracker(isPreviewOpen);
+  
+  const handleView = async (output: any) => {
+    if (output.status !== "READY" || !output.processedBlobName) return;
   const filteredOutputs = useMemo(() => {
     if (!Array.isArray(contentOutputs)) return [];
     return contentOutputs.filter((o: any) => 
