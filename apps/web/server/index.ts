@@ -30,7 +30,7 @@ const PORT = process.env.PORT;
 const app = express();
 app.use(cookieParser());
 app.use(cors({
-  origin: "http://localhost:3000", // Allows your Vite frontend
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000', 
   methods: ["GET", "POST"],
   credentials: true
 }));
