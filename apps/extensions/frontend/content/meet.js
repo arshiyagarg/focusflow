@@ -129,7 +129,7 @@ function setupDashboardActions() {
             addMeetMsg(text, 'user');
             input.value = '';
             try {
-                const res = await fetch('http://localhost:3000/media/meet-chat', {
+                const res = await fetch('https://focusflow-extension.onrender.com/media/meet-chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message: text, history: meetChatHistory })
@@ -148,7 +148,7 @@ function setupDashboardActions() {
         const formatEl = document.getElementById('nugget-format');
         const format = formatEl ? formatEl.value : 'bullets';
         
-        const res = await fetch(`http://localhost:3000/media/meeting-summary?format=${format}`);
+        const res = await fetch(`https://focusflow-extension.onrender.com/media/meeting-summary?format=${format}`);
         if (!res.ok) throw new Error("Backend Error: " + res.status);
         
         const data = await res.json();
@@ -275,7 +275,7 @@ async function triggerActiveRecallQuiz() {
     setTimeout(() => dashboard.style.border = "3px solid #10a37f", 3000);
 
     // 2. Fetch Quiz from Groq
-    const res = await fetch('http://localhost:3000/media/generate-quiz', {
+    const res = await fetch('https://focusflow-extension.onrender.com/media/generate-quiz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ context: transcriptText.slice(-2000) })
@@ -345,7 +345,7 @@ function setupVisualActions() {
             addVisualMsg(text, 'user');
             input.value = '';
 
-            const res = await fetch('http://localhost:3000/vision/ocr-chat', {
+            const res = await fetch('https://focusflow-extension.onrender.com/vision/ocr-chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: text, ocrContext: lastOcrResult, history: visualChatHistory })
@@ -372,7 +372,7 @@ document.getElementById('visual-shredder').onclick = async () => {
     output.innerHTML = "Generating ADHD-friendly flowchart...";
     
     try {
-        const res = await fetch('http://localhost:3000/media/shredder', {
+        const res = await fetch('https://focusflow-extension.onrender.com/media/shredder', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ transcript: transcriptText })
@@ -406,7 +406,7 @@ window.addEventListener("message", async (event) => {
         
         output.innerText = "Processing captured region with Azure AI Vision...";
         try {
-            const res = await fetch('http://localhost:3000/vision/ocr-explain', {
+            const res = await fetch('https://focusflow-extension.onrender.com/vision/ocr-explain', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ image: event.data.image })
@@ -449,7 +449,7 @@ if (shredBtn) {
         output.innerHTML = "Performing deep topic analysis...";
         
         try {
-            const res = await fetch(`http://localhost:3000/vision/video-topics?transcript=${encodeURIComponent(transcriptText)}`);
+            const res = await fetch(`https://focusflow-extension.onrender.com/vision/video-topics?transcript=${encodeURIComponent(transcriptText)}`);
             const data = await res.json();
             
             // Convert text tags into color-coded blocks

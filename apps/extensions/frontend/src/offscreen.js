@@ -37,7 +37,7 @@ function recordSegment() {
             formData.append('audio', new Blob(chunks, { type: 'audio/webm' }), 'chunk.webm');
             
             try {
-                const response = await fetch('http://localhost:3000/media/process-audio', { 
+                const response = await fetch('https://focusflow-extension.onrender.com/media/process-audio', { 
                     method: 'POST', 
                     body: formData 
                 });

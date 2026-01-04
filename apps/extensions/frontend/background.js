@@ -2,7 +2,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     
     if (msg.type === 'CHAT_REQUEST') {
         
-        fetch('http://localhost:3000/chat/explain', {
+        fetch('https://focusflow-extension.onrender.com/chat/explain', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(msg.payload)
