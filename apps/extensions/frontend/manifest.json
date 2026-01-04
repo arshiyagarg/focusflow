@@ -5,7 +5,7 @@
   "description": "ADHD-friendly reading, explanations, and Meet assistance.",
   "permissions": ["storage", "activeTab", "scripting", "tabCapture",
     "offscreen"],
-  "host_permissions": ["http://localhost:3000/*"],
+  "host_permissions": ["https://focusflow-extension.onrender.com/*"],
   "background": {
     "service_worker": "background.js"
   },
@@ -19,7 +19,7 @@
       "css": ["style.css"]
     },
     {
-      "matches": ["*://meet.google.com/*", "*://www.youtube.com/*", "*://www.spotify.com/*"],
+      "matches": ["*://meet.google.com/*", "*://www.youtube.com/*", "*://*.spotify.com/*"],
       "js": ["libs/mermaid.min.js","content/meet.js", "content/vision.js"],
       "css": ["style.css"]
     }
